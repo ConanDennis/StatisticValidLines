@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class StatisticValidLines {
 
@@ -16,7 +13,7 @@ public class StatisticValidLines {
             searchFiles(filePath);
         }
 
-        System.out.println("\n总有效代码行数: " + validLines);
+        System.out.println("总有效代码行数: " + validLines);
         System.out.println("总空白行数：" + emptyLines);
         System.out.println("总注释行数：" + commentLines);
         System.out.println("总行数：" + (validLines + emptyLines + commentLines));
@@ -41,6 +38,8 @@ public class StatisticValidLines {
     private static void statisticLines(File file) {
 
         BufferedReader br = null;
+        FileWriter fw = null;
+
         // 判断此行是否为注释行
         boolean comment = false;
 
@@ -103,11 +102,17 @@ public class StatisticValidLines {
 
             }
 
-            System.out.println("文件名:" + file.getName() + "\t有效行数" + cur_validLines +
+            String output = "文件名:" + file.getName() + "\t有效行数" + cur_validLines +
                     " ,空白行数" + cur_emptyLines +
                     " ,注释行数" + cur_commentLines +
-                    " ,总行数" + (cur_validLines + cur_emptyLines + cur_commentLines)
-            );
+                    " ,总行数" + (cur_validLines + cur_emptyLines + cur_commentLines) + "\n";
+
+            System.out.println(output);
+
+            File outFile = new File("/Users/kingwufeng/workspace/StatisticValidLines/validLineCount.txt");
+            fw = new FileWriter(outFile ,true);
+            fw.write(output);
+            fw.flush();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -115,6 +120,13 @@ public class StatisticValidLines {
             if (br != null) {
                 try {
                     br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (fw != null) {
+                try {
+                    fw.close();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
