@@ -11,7 +11,7 @@ public class StatisticValidLines {
 
     public static void main(String[] args) throws IOException {
 
-        File file = new File("/Users/kingwufeng/workspace/StatisticsValidLine/src/StringUtils.html");
+        File file = new File("/Users/kingwufeng/workspace/StatisticValidLines/src/TestExample.java");
         if (file.exists()) {
             statistic(file);
         }
@@ -31,8 +31,8 @@ public class StatisticValidLines {
 
         }
         if (file.isFile()) {
-            //统计扩展名为java的文件
-            if (file.getName().matches(".*\\.java")) {
+            //统计扩展名为.java的文件
+            if (file.getName().matches(".*.java")) {
                 parse(file);
             }
         }
