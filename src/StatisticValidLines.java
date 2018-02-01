@@ -11,9 +11,9 @@ public class StatisticValidLines {
 
     public static void main(String[] args) throws IOException {
 
-        File file = new File("/Users/kingwufeng/workspace/StatisticValidLines/src/testCase/");
-        if (file.exists()) {
-            searchFiles(file);
+        File filePath = new File("/Users/kingwufeng/workspace/StatisticValidLines/src/testCase/");
+        if (filePath.exists()) {
+            searchFiles(filePath);
         }
 
         System.out.println("\n总有效代码行数: " + validLines);
@@ -34,14 +34,12 @@ public class StatisticValidLines {
 
         }
         if (filePath.isFile()) {
-            //判断文件后缀是否为.java
-            if (filePath.getName().matches(".*.java")) {
-                statisticLines(filePath);
-            }
+            statisticLines(filePath);
         }
     }
 
     private static void statisticLines(File file) {
+
         BufferedReader br = null;
         // 判断此行是否为注释行
         boolean comment = false;
@@ -55,27 +53,54 @@ public class StatisticValidLines {
             String line;
             while ((line = br.readLine()) != null) {
                 line = line.trim();
-                if (line.matches("^[//s&&[^//n]]*$")) {
-                    emptyLines++;
-                    cur_emptyLines++;
-                } else if (line.startsWith("/*") && !line.endsWith("*/")) {
-                    commentLines++;
-                    comment = true;
-                    cur_commentLines++;
-                } else if (comment && !line.endsWith("*/")) {
-                    commentLines++;
-                    cur_commentLines++;
-                } else if (comment && line.endsWith("*/")) {
-                    commentLines++;
-                    cur_commentLines++;
-                    comment = false;
-                } else if (line.startsWith("//")) {
-                    commentLines++;
-                    cur_commentLines++;
-                } else {
-                    validLines++;
-                    cur_validLines++;
+                String fileName = file.getName();
+                if (fileName.matches(".*.java")) {
+
+                    if (line.matches("^[//s&&[^//n]]*$")) {
+                        emptyLines++;
+                        cur_emptyLines++;
+                    } else if (line.startsWith("/*") && !line.endsWith("*/")) {
+                        commentLines++;
+                        comment = true;
+                        cur_commentLines++;
+                    } else if (comment && !line.endsWith("*/")) {
+                        commentLines++;
+                        cur_commentLines++;
+                    } else if (comment && line.endsWith("*/")) {
+                        commentLines++;
+                        cur_commentLines++;
+                        comment = false;
+                    } else if (line.startsWith("//")) {
+                        commentLines++;
+                        cur_commentLines++;
+                    } else {
+                        validLines++;
+                        cur_validLines++;
+                    }
+
+                } else if (fileName.matches(".*.html")) {
+
+                    if (line.matches("^[//s&&[^//n]]*$")) {
+                        emptyLines++;
+                        cur_emptyLines++;
+                    } else if (line.startsWith("<!--") && !line.endsWith("-->")) {
+                        commentLines++;
+                        comment = true;
+                        cur_commentLines++;
+                    } else if (comment && !line.endsWith("-->")) {
+                        commentLines++;
+                        cur_commentLines++;
+                    } else if (comment && line.endsWith("-->")) {
+                        commentLines++;
+                        cur_commentLines++;
+                        comment = false;
+                    } else {
+                        validLines++;
+                        cur_validLines++;
+                    }
+
                 }
+
             }
 
             System.out.println("文件名:" + file.getName() + "\t有效行数" + cur_validLines +
