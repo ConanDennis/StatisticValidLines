@@ -8,7 +8,7 @@ public class StatisticValidLines {
 
     public static void main(String[] args) throws IOException {
 
-        File filePath = new File("/Users/kingwufeng/workspace/StatisticValidLines/src/testCase/");
+        File filePath = new File("./src/testCase/");
         if (filePath.exists()) {
             searchFiles(filePath);
         }
@@ -109,7 +109,7 @@ public class StatisticValidLines {
 
             System.out.println(output);
 
-            File outFile = new File("/Users/kingwufeng/workspace/StatisticValidLines/validLineCount.txt");
+            File outFile = new File("./validLineCount.txt");
             fw = new FileWriter(outFile ,true);
             fw.write(output);
             fw.flush();
